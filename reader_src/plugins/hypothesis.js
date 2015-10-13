@@ -140,7 +140,8 @@ EPUBJS.reader.plugins.HypothesisController = function (Book) {
 		}).get();
 	};
 
-	$("#annotations").on("click", function () {
+	$(".h-icon-chevron-left").on("click", function () {
+		console.log("clicked")
 		var annotator = Book.renderer.render.window.annotator;
 		var currentPosition = Book.getCurrentLocationCfi();
 
