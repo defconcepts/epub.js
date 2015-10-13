@@ -113,7 +113,12 @@ window.hypothesisInstall();
 
 EPUBJS.reader.plugins.HypothesisController = function (Book) {
 	var reader = this;
+	// var element = document.getElementById("hypothesis");
 	var $main = $("#main");
+
+	// var attach = function () {
+	// 	annotator.frame.appendTo(element);
+	// }
 
 	var updateAnnotations = function () {
 		var annotator = Book.renderer.render.window.annotator;
