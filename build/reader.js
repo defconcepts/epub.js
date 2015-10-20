@@ -801,17 +801,17 @@ EPUBJS.reader.NotesController = function() {
 };
 EPUBJS.reader.ReaderController = function(book) {
 	var $main = $("#main"),
-			$divider = $("#divider"),
-			$loader = $("#loader"),
-			$next = $("#next"),
-			$prev = $("#prev");
+		$divider = $("#divider"),
+		$loader = $("#loader"),
+		$next = $("#next"),
+		$prev = $("#prev");
 	var reader = this;
 	var book = this.book;
 	var slideIn = function() {
 		var currentPosition = book.getCurrentLocationCfi();
 		if (reader.settings.sidebarReflow){
 			$main.removeClass('single');
-			$main.one("transitionend", function(){
+			$main.on("transitionend", function(){
 				book.gotoCfi(currentPosition);
 			});
 		} else {
