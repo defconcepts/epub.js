@@ -75,7 +75,6 @@ window.hypothesisInstall = function (inject) {
       Annotator.Sidebar.call(this, elem, options);
 
       self.show = function() {
-        console.log("Show");
         self.frame.css({
           'margin-left': (-1 * self.frame.width()) + "px"
         });
@@ -87,7 +86,6 @@ window.hypothesisInstall = function (inject) {
       };
 
       self.hide = function() {
-        console.log("Hide");
         self.frame.css({
           'margin-left': ''
         });
@@ -97,6 +95,8 @@ window.hypothesisInstall = function (inject) {
         }
         window.dispatchEvent(toggleSidebarEvent);
       };
+
+      debugger;
 
       // self.createAnnotation = function(annotation) {
       //   console.log("createAnnotation")
