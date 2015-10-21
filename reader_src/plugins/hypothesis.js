@@ -99,26 +99,31 @@ window.hypothesisInstall = function (inject) {
           self.toolbar.find('[name=sidebar-toggle]').removeClass('h-icon-chevron-left').addClass('h-icon-chevron-right');
           self.setVisibleHighlights(true);
         }
-      }
+      };
 
       // debugger;
 
-      // self.createAnnotation = function(annotation) {
-      //   console.log("createAnnotation")
-      //   if (annotation == null) {
-      //     annotation = {};
-      //   }
-      //   Sidebar.__super__.createAnnotation.apply(self, arguments);
-      //   if (!annotation.$highlight) {
-      //     return self.show();
-      //   }
-      // };
+      // self = (function(superClass) {
+      //   extend(self, superClass);
 
-      // self.showAnnotations = function(annotations) {
-      //   console.log("showAnnotations")
-      //   Sidebar.__super__.showAnnotations.apply(self, arguments);
-      //   return self.show();
-      // };
+      //   self.createAnnotation = function(annotation) {
+      //     console.log("createAnnotation")
+      //     if (annotation == null) {
+      //       annotation = {};
+      //     }
+      //     self.__super__.createAnnotation.apply(self, arguments);
+      //     if (!annotation.$highlight) {
+      //       return self.show();
+      //     }
+      //   };
+
+      //   self.showAnnotations = function(annotations) {
+      //     console.log("showAnnotations")
+      //     self.__super__.showAnnotations.apply(self, arguments);
+      //     return self.show();
+      //   };
+      // })(Annotator.Host);
+
     }
 
     MySidebar.prototype = Object.create(Annotator.Host.prototype);
