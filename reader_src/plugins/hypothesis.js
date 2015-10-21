@@ -65,24 +65,20 @@ window.hypothesisInstall = function (inject) {
     function MySidebar(elem, options) {
       var self = this;
       var $main = $("#main");
-      var toggleSidebarEvent = new Event('toggle-sidebar');
 
       options = {
       	showHighlights: true,
       	Toolbar: {container: '#annotation-controls'}
       }
       
-      Annotator.Sidebar.call(this, elem, options);
+      Annotator.Host.call(this, elem, options);
 
       self.show = function() {
         self.frame.css({
           'margin-left': (-1 * self.frame.width()) + "px"
         });
         self.frame.removeClass('annotator-collapsed');
-        if (self.toolbar != null) {
-          self.toolbar.find('[name=sidebar-toggle]').removeClass('h-icon-chevron-left').addClass('h-icon-chevron-right');
-        }
-        window.dispatchEvent(toggleSidebarEvent);
+        self.toggleSidebar();
       };
 
       self.hide = function() {
@@ -90,13 +86,22 @@ window.hypothesisInstall = function (inject) {
           'margin-left': ''
         });
         self.frame.addClass('annotator-collapsed');
-        if (self.toolbar != null) {
-          self.toolbar.find('[name=sidebar-toggle]').removeClass('h-icon-chevron-right').addClass('h-icon-chevron-left');
-        }
-        window.dispatchEvent(toggleSidebarEvent);
+        self.toggleSidebar();
       };
 
-      debugger;
+      self.toggleSidebar = function () {
+        if ($main.hasClass("single")) {
+          $main.removeClass("single");
+          self.toolbar.find('[name=sidebar-toggle]').removeClass('h-icon-chevron-right').addClass('h-icon-chevron-left');
+          self.setVisibleHighlights(false);
+        } else {
+          $main.addClass("single");
+          self.toolbar.find('[name=sidebar-toggle]').removeClass('h-icon-chevron-left').addClass('h-icon-chevron-right');
+          self.setVisibleHighlights(true);
+        }
+      }
+
+      // debugger;
 
       // self.createAnnotation = function(annotation) {
       //   console.log("createAnnotation")
@@ -116,7 +121,7 @@ window.hypothesisInstall = function (inject) {
       // };
     }
 
-    MySidebar.prototype = Object.create(Annotator.Sidebar.prototype);
+    MySidebar.prototype = Object.create(Annotator.Host.prototype);
 
     return {
       constructor: MySidebar,
@@ -147,12 +152,7 @@ window.hypothesisInstall();
 
 EPUBJS.reader.plugins.HypothesisController = function (Book) {
 	var reader = this;
-	// var element = document.getElementById("hypothesis");
 	var $main = $("#main");
-
-	// var attach = function () {
-	// 	annotator.frame.appendTo(element);
-	// }
 
 	var updateAnnotations = function () {
 		var annotator = Book.renderer.render.window.annotator;
@@ -174,22 +174,26 @@ EPUBJS.reader.plugins.HypothesisController = function (Book) {
 		}).get();
 	};
 
-	window.addEventListener("toggle-sidebar", function () {
-		var annotator = Book.renderer.render.window.annotator;
-		var currentPosition = Book.getCurrentLocationCfi();
+  // $main.one("transitionend", function(){
+  //   Book.gotoCfi(currentPosition);
+  // });
 
-		if ($main.hasClass("single")) {
-			$main.removeClass("single");
-			annotator.setVisibleHighlights(false);
-		} else {
-			$main.addClass("single");
-			annotator.setVisibleHighlights(true);
-		}
+	// window.addEventListener("toggle-sidebar", function () {
+	// 	var annotator = Book.renderer.render.window.annotator;
+	// 	var currentPosition = Book.getCurrentLocationCfi();
 
-		$main.one("transitionend", function(){
-			Book.gotoCfi(currentPosition);
-		});
-	}, false);
+	// 	if ($main.hasClass("single")) {
+	// 		$main.removeClass("single");
+	// 		annotator.setVisibleHighlights(false);
+	// 	} else {
+	// 		$main.addClass("single");
+	// 		annotator.setVisibleHighlights(true);
+	// 	}
+
+	// 	$main.one("transitionend", function(){
+	// 		Book.gotoCfi(currentPosition);
+	// 	});
+	// }, false);
 
 	Book.on("renderer:locationChanged", updateAnnotations);
 	// Book.on("renderer:chapterDisplayed", updateAnnotations);
